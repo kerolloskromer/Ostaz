@@ -1,0 +1,2 @@
+rootProject.name='Ostaz'
+include ':app'
