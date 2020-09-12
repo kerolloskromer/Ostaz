@@ -1,6 +1,6 @@
 package com.kromer.ostaz.data.source.remote
 
-import com.kromer.ostaz.data.model.Post
+import com.kromer.ostaz.domain.entity.Post
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.GET

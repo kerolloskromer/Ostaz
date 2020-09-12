@@ -26,7 +26,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name="com.kromer.ostaz.presentation.ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,9 +34,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name="com.kromer.ostaz.presentation.ui.main.MainActivity" />
 
-        <activity android:name=".ui.record.RecordActivity" />
+        <activity android:name="com.kromer.ostaz.presentation.ui.record.RecordActivity" />
 
     </application>
 

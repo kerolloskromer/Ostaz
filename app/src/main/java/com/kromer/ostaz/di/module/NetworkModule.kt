@@ -5,6 +5,8 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GetTokenResult
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kromer.ostaz.BuildConfig
 import com.kromer.ostaz.data.local.prefs.Preferences
 import com.kromer.ostaz.data.source.remote.NotificationsApiInterface
@@ -93,9 +95,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .setLenient()
+            .serializeNulls() // to allow sending null values
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .baseUrl(BASE_URL)
         .build()
 
