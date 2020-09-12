@@ -1,11 +1,20 @@
 package com.kromer.ostaz.ui.base
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.kromer.ostaz.data.local.prefs.Preferences
-import javax.inject.Inject
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
-    @Inject
-    lateinit var preferences: Preferences
+    open lateinit var binding: VB
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = getVBInflater().invoke(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    protected abstract fun getVBInflater(): (LayoutInflater) -> VB
+
 }

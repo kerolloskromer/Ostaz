@@ -1,29 +1,31 @@
 package com.kromer.ostaz.ui.main
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.kromer.ostaz.R
+import com.kromer.ostaz.databinding.ActivityMainBinding
 import com.kromer.ostaz.ui.base.BaseActivity
 import com.kromer.ostaz.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
+
     private var currentNavController: LiveData<NavController>? = null
+
+    override fun getVBInflater(): (LayoutInflater) -> ActivityMainBinding =
+        ActivityMainBinding::inflate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState

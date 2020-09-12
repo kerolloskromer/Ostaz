@@ -4,25 +4,25 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.lifecycle.ViewModelProvider
-import com.kromer.ostaz.R
+import android.view.LayoutInflater
+import androidx.activity.viewModels
+import com.kromer.ostaz.databinding.ActivityRecordBinding
 import com.kromer.ostaz.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_record.*
 
 @AndroidEntryPoint
-class RecordActivity : BaseActivity() {
+class RecordActivity : BaseActivity<ActivityRecordBinding>() {
 
-    private lateinit var viewModel: RecordViewModel
+    private val viewModel: RecordViewModel by viewModels()
 
     private val REQUEST_VIDEO_CAPTURE = 1
 
+    override fun getVBInflater(): (LayoutInflater) -> ActivityRecordBinding =
+        ActivityRecordBinding::inflate
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_record)
-
-        viewModel = ViewModelProvider(this).get(RecordViewModel::class.java)
-
         dispatchTakeVideoIntent()
     }
 

@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+abstract class BaseDialogFragment<VB : ViewBinding> : DialogFragment() {
 
     private var _binding: VB? = null
     open val binding get() = _binding!!

@@ -5,40 +5,31 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import com.kromer.ostaz.R
+import androidx.fragment.app.viewModels
+import com.kromer.ostaz.databinding.FragmentDashboardBinding
 import com.kromer.ostaz.ui.base.BaseFragment
 import com.kromer.ostaz.utils.MediaPlayerManager
 import com.kromer.ostaz.utils.MediaRecorderManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 @AndroidEntryPoint
-class DashboardFragment : BaseFragment() {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
     private val RECORD_AUDIO_PERMISSION_REQUEST_CODE = 123
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private val dashboardViewModel: DashboardViewModel by viewModels()
 
     var started: Boolean = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        return root
-    }
+    override fun getVBInflater(): (LayoutInflater) -> FragmentDashboardBinding =
+        FragmentDashboardBinding::inflate
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_record.text = "Start"
+        binding.btnRecord.text = "Start"
 
-        btn_record.setOnClickListener {
+        binding.btnRecord.setOnClickListener {
             if (isPermissionGranted()) {
                 doWork()
             } else {
@@ -50,7 +41,7 @@ class DashboardFragment : BaseFragment() {
 
     private fun doWork() {
         if (started) {
-            btn_record.text = "Start"
+            binding.btnRecord.text = "Start"
             MediaRecorderManager.stop()
             dashboardViewModel.uploadPost(
                 MediaRecorderManager.file?.path!!,
@@ -61,7 +52,7 @@ class DashboardFragment : BaseFragment() {
             MediaPlayerManager.start(MediaRecorderManager.file?.path!!)
             started = false
         } else {
-            btn_record.text = "Stop"
+            binding.btnRecord.text = "Stop"
             MediaPlayerManager.stop()
             MediaRecorderManager.start(requireContext())
             started = true
